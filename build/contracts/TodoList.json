@@ -2354,12 +2354,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xbECd7361d9E970a13366c89ff9590D3795dCE35F",
-      "transactionHash": "0xacd24c31203c997203b4bc804ac5f7c9afca092716c6801ab2e4c0bcb487f3b3"
+      "address": "0x8a3551F816370251d8302e63B51B30651b879699",
+      "transactionHash": "0x2e802fe5d4dd8ba53408c2b68c3005d343cb0989292ffae2cb61ab0d9db370d5"
     }
   },
   "schemaVersion": "3.0.1",
-  "updatedAt": "2024-09-22T11:01:43.800Z",
+  "updatedAt": "2024-09-22T11:11:14.188Z",
   "devdoc": {
     "methods": {}
   },
