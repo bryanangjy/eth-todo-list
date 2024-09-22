@@ -1,5 +1,3 @@
-import Web3 from 'web3';
-
 App = {
   loading: false,
   contracts: {},
@@ -14,7 +12,7 @@ App = {
   loadWeb3: async () => {
     if (typeof window.ethereum !== 'undefined') {
       App.web3Provider = window.ethereum;
-      window.web3 = new Web3(window.ethereum);
+      window.web3 = new Web3(App.web3Provider);
       try {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
         console.log("Ethereum enabled");
@@ -23,25 +21,34 @@ App = {
       }
     } else if (typeof window.web3 !== 'undefined') {
       App.web3Provider = window.web3.currentProvider;
-      window.web3 = new Web3(window.web3.currentProvider);
+      window.web3 = new Web3(App.web3Provider);
       console.log("Legacy dapp browser detected");
     } else {
       console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
-  },  
+  },
 
   loadAccount: async () => {
-    const accounts = await Web3.eth.getAccounts();
-    App.account = accounts[0];
-    console.log("Account loaded:", App.account);
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      App.account = accounts[0];
+      console.log("Account loaded:", App.account);
+    } catch (error) {
+      console.error("Error fetching accounts", error);
+    }
   },
 
   loadContract: async () => {
-    const todoList = await $.getJSON('TodoList.json');
-    App.contracts.TodoList = TruffleContract(todoList);
-    App.contracts.TodoList.setProvider(App.web3Provider);
-    App.todoList = await App.contracts.TodoList.deployed();
-    console.log("Contract loaded:", App.todoList);
+    const todoListJson = await $.getJSON('TodoList.json');
+    
+    // Use @truffle/contract to create a contract abstraction
+    const TodoList = TruffleContract(todoListJson);
+    
+    // Set provider
+    TodoList.setProvider(App.web3Provider);
+    
+    // Retrieve deployed instance of the contract
+    App.todoList = await TodoList.deployed();
   },  
 
   render: async () => {
