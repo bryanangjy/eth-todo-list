@@ -1,5 +1,3 @@
-import TruffleContract from '@truffle/contract';
-
 App = {
   loading: false,
   contracts: {},
@@ -119,3 +117,5 @@ $(() => {
     App.load();
   });
 });
+
+import TruffleContract from '@truffle/contract';
